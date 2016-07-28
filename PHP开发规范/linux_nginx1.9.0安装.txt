@@ -1,0 +1,63 @@
+1、安装依赖库
+yum -y install gcc automake autoconf libtool make  libxml2-devel libxslt-devel perl-devel perl-ExtUtils-Embed
+yum -y install yum install gcc gcc-c++
+2、安装pcre，用于重写rewrite
+wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz
+安装到 /usr/local/src
+tar pcre-8.36.tar.gz
+cd  pcre-8.36
+./configure
+make && make install
+3、安装zlib,用于gzip压缩
+wget http://zlib.net/zlib-1.2.8.tar.gz
+tar -zxvf zlib-1.2.9.tar.gz
+cd 	zlib-1.2.9
+./configure 
+make && make install
+4、安装openssl，用于ssl
+wget http://www.openssl.org/source/openssl-1.0.2d.tar.gz
+tar  -zxvf openssl-1.0.2d.tar.gz
+cd 	 openssl-1.0.2d
+./config 
+make && make install
+5、安装Nginx
+cd nginx-1.9.3
+./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-pcre=/usr/local/src/pcre-8.36 --with-zlib=/usr/local/src/zlib-1.2.8 --with-openssl=/usr/local/src/openssl-1.0.2d
+
+make && make install
+
+二 ：编译安装MySQL 5.6.10
+1、安装需要的库
+sudo apt-get install build-essential libncurses5-dev cmake
+2、准备目录
+/usr/local/mysql
+/usr/local/mysql/data
+/usr/local/mysql/log/
+3、编译准备
+sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS:STRING=utf8 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DMYSQL_DATADIR=/usr/local/mysql/data
+4、安装MySQL
+make && make install
+5、配置MySQL
+ln -s /usr/local/mysql/lib/libmysqlclient.so.18 /usr/lib/libmysqlclient.so.18
+cp support-files/my-default.cnf /usr/local/mysql/conf/my.cnf
+cp support-files/mysql.server /etc/init.d/mysqld
+/usr/local/mysql/scripts/mysql_install_db --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=liujx
+
+
+三：安装PHP
+1、安装PNG == libpng-1.6.13.tar.gz
+
+#libgd
+cd /usr/local/src/libgd-2.1.0 
+./configure --prefix=/usr/local/libgd --enable-shared 
+--with-jpeg=/usr/local/jpeg 
+--with-png=/usr/local/libpng 
+--with-freetype=/usr/local/freetype 
+--with-fontconfig=/usr/local/freetype
+make && make install
+
+
+
+
+安装PHP
+./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --with-mysql=/usr/local/mysql --with-mysqli=/usr/local/mysql/bin/mysql_config --with-pdo-mysql=mysqlnd  --with-mcrypt --with-jpeg-dir=/usr/local --with-gettext  --with-iconv  --with-libxml-dir --with-gd --with-zlib --with-xmlrpc --with-curl --with-bz2 --with-pear --with-openssl --with-mhash --enable-zip --enable-mbregex --enable-fpm --enable-mbstring  --enable-pcntl --enable-sockets --enable-zip --enable-soap --enable-inline-optimization --enable-pcntl --enable-shmop --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-sockets --enable-gd-native-ttf --enable-bcmath --enable-xml
