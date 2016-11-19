@@ -1,51 +1,51 @@
-1¡¢°²×°ÒÀÀµ¿â
+1ã€å®‰è£…ä¾èµ–åº“
 yum -y install gcc automake autoconf libtool make  libxml2-devel libxslt-devel perl-devel perl-ExtUtils-Embed
 yum -y install yum install gcc gcc-c++
-2¡¢°²×°pcre£¬ÓÃÓÚÖØĞ´rewrite
+2ã€å®‰è£…pcreï¼Œç”¨äºé‡å†™rewrite
 wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz
-°²×°µ½ /usr/local/src
+å®‰è£…åˆ° /usr/local/src
 tar pcre-8.36.tar.gz
 cd  pcre-8.36
 ./configure
 make && make install
-3¡¢°²×°zlib,ÓÃÓÚgzipÑ¹Ëõ
+3ã€å®‰è£…zlib,ç”¨äºgzipå‹ç¼©
 wget http://zlib.net/zlib-1.2.8.tar.gz
 tar -zxvf zlib-1.2.9.tar.gz
 cd 	zlib-1.2.9
 ./configure 
 make && make install
-4¡¢°²×°openssl£¬ÓÃÓÚssl
+4ã€å®‰è£…opensslï¼Œç”¨äºssl
 wget http://www.openssl.org/source/openssl-1.0.2d.tar.gz
 tar  -zxvf openssl-1.0.2d.tar.gz
 cd 	 openssl-1.0.2d
 ./config 
 make && make install
-5¡¢°²×°Nginx
+5ã€å®‰è£…Nginx
 cd nginx-1.9.3
 ./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-pcre=/usr/local/src/pcre-8.36 --with-zlib=/usr/local/src/zlib-1.2.8 --with-openssl=/usr/local/src/openssl-1.0.2d
 
 make && make install
 
-¶ş £º±àÒë°²×°MySQL 5.6.10
-1¡¢°²×°ĞèÒªµÄ¿â
+äºŒ ï¼šç¼–è¯‘å®‰è£…MySQL 5.6.10
+1ã€å®‰è£…éœ€è¦çš„åº“
 sudo apt-get install build-essential libncurses5-dev cmake
-2¡¢×¼±¸Ä¿Â¼
+2ã€å‡†å¤‡ç›®å½•
 /usr/local/mysql
 /usr/local/mysql/data
 /usr/local/mysql/log/
-3¡¢±àÒë×¼±¸
+3ã€ç¼–è¯‘å‡†å¤‡
 sudo cmake -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS:STRING=utf8 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DMYSQL_DATADIR=/usr/local/mysql/data
-4¡¢°²×°MySQL
+4ã€å®‰è£…MySQL
 make && make install
-5¡¢ÅäÖÃMySQL
+5ã€é…ç½®MySQL
 ln -s /usr/local/mysql/lib/libmysqlclient.so.18 /usr/lib/libmysqlclient.so.18
 cp support-files/my-default.cnf /usr/local/mysql/conf/my.cnf
 cp support-files/mysql.server /etc/init.d/mysqld
 /usr/local/mysql/scripts/mysql_install_db --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=liujx
 
 
-Èı£º°²×°PHP
-1¡¢°²×°PNG == libpng-1.6.13.tar.gz
+ä¸‰ï¼šå®‰è£…PHP
+1ã€å®‰è£…PNG == libpng-1.6.13.tar.gz
 
 #libgd
 cd /usr/local/src/libgd-2.1.0 
@@ -59,5 +59,5 @@ make && make install
 
 
 
-°²×°PHP
+å®‰è£…PHP
 ./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --with-mysql=/usr/local/mysql --with-mysqli=/usr/local/mysql/bin/mysql_config --with-pdo-mysql=mysqlnd  --with-mcrypt --with-jpeg-dir=/usr/local --with-gettext  --with-iconv  --with-libxml-dir --with-gd --with-zlib --with-xmlrpc --with-curl --with-bz2 --with-pear --with-openssl --with-mhash --enable-zip --enable-mbregex --enable-fpm --enable-mbstring  --enable-pcntl --enable-sockets --enable-zip --enable-soap --enable-inline-optimization --enable-pcntl --enable-shmop --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-sockets --enable-gd-native-ttf --enable-bcmath --enable-xml
