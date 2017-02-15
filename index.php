@@ -1,10 +1,4 @@
 <?php
-    // 判断PHP的版本
-    $isPHP6 = PHP_VERSION > '5.6.0';
-    // ini_set('precision', 20);
-    // cpu:XHPROF_FLAGS_CPU 内存:XHPROF_FLAGS_MEMORY
-    // 如果两个一起：XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY 
-    if ( ! $isPHP6) xhprof_enable(XHPROF_FLAGS_CPU + XHPROF_FLAGS_MEMORY);
     // 设置头信息
     header('Content-Type:text/html; charset=UTF-8');
     
@@ -65,11 +59,11 @@
     <meta name="author" content="">
     <title> MyServer 我的服务器 </title>
     <!-- Bootstrap core CSS -->
-    <link href="/public/ace/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resource/ace/assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
 
-    <script src="/public/ace/assets/js/jquery.min.js"></script>
-    <script src="/public/ace/assets/js//bootstrap.min.js"></script>
+    <script src="/resource/ace/assets/js/jquery.min.js"></script>
+    <script src="/resource/ace/assets/js/bootstrap.min.js"></script>
 
     <style type="text/css">
         div.main {margin-top:70px;}
@@ -92,17 +86,14 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav pull-right">
-                    <li <?php if ( ! $isPHP) : ?>class="active" <?php endif; ?>><a href="/">首页</a></li>
+                    <li <?php if (!$isPHP) : ?>class="active" <?php endif; ?>><a href="/">首页</a></li>
                     <li <?php if ($isPHP) : ?>class="active" <?php endif; ?>><a href="?php=info"><?='PHP '.PHP_VERSION?></a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 资源 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header bg-success"> 后台模板 </li>
-                            <li><a href="/public/ace">ACE</a></li>
-                            <li><a href="/public/Simpli">Simpli</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li class="dropdown-header bg-success">其他</li>
-                            <li><a target="_blank" href="/xhprof/xhprof_html/index.php" class="xhprof">xhprof</a></li>
+                            <li><a href="/resource/ace">ACE</a></li>
+                            <li><a href="/resource/Simpli">Simpli</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -175,49 +166,13 @@
                     </div>
                 </div>
                 <?php endif; ?>
-                <p class="bg-success m-p"> Xhprof测试结果：<a target="_blank" href="/xhprof/xhprof_html/index.php" class="xhprof">查看</a></p>
             </div>
         </div>
         <div id="me"></div>
     </div> <!-- /container -->
-    <?php 
-        /**
-         * 下面是一些参数说明
-         *   Inclusive Time                 包括子函数所有执行时间。
-         *   Exclusive Time/Self Time       函数执行本身花费的时间，不包括子树执行时间。
-         *   Wall Time                      花去了的时间或挂钟时间。
-         *   CPU Time                       用户耗的时间+内核耗的时间
-         *   Inclusive CPU                  包括子函数一起所占用的CPU
-         *   Exclusive CPU                  函数自身所占用的CPU
-         */
-        if ( ! $isPHP6)
-        {
-            $data = xhprof_disable();   // 返回运行数据
-
-            // xhprof_lib在下载的包里存在这个目录,记得将目录包含到运行的php代码中
-            include_once './xhprof/xhprof_lib/utils/xhprof_lib.php';  
-            include_once './xhprof/xhprof_lib/utils/xhprof_runs.php';
-            $objRun = new XHProfRuns_Default(); 
-            $intRid = $objRun->save_run($data, "xhprof");
-
-            // 删除多余文件
-            $resource = opendir('./xhprof/logs');
-            while (!! $file = readdir($resource))
-            {
-                if ($file == '.' || $file == '..' || $file == ($intRid.'.xhprof') || $file == 'tmp') continue;
-                unlink('./xhprof/logs/'.$file);
-            }  
-        }
-    
-    ?>
     <script type="text/javascript">
         $(function(){ 
             $('table').css('width', '100%').find('td, th').css('padding', '5px');
-            <?php if ( ! $isPHP6) : ?>
-            $('.xhprof').each(function(){
-                $(this).attr('href', $(this).attr('href') + '?run=<?=$intRid?>&source=xhprof').html($(this).html() + '<?=$intRid?>')
-            });
-            <?php endif; ?>
         })
     </script>
 </body>
