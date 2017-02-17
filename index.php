@@ -19,8 +19,7 @@
     ];
 
     // 循环处理
-    while (!! $filename = readdir($resource))
-    {
+    while (!! $filename = readdir($resource)) {
         // 去掉隐藏文件
         if (isset($hidefile[$filename])) continue;
 
@@ -30,22 +29,14 @@
     }
 
     // 定义站点信息 域名 => 说明
-    $arrSite = [
-        'web.com'      => '死神WEB', 
-        'sina.com'     => '新浪项目ThinkPHP', 
-        'admin.com'    => '新浪项目Yii2',
-        'm.me.com'     => '疾创手游平台',
-        'ls.me.com'    => '兰斯洛特官网',
-        'bbs.me.com'   => '疾创手游论坛',
-        'api.com'      => '疾创手游API',
-        'apiadmin.com' => '疾创手游后台管理',
-    ];
+    $arrSite = [];
 
     // 服务器切换
-    if (strchr($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) 
+    if (strchr($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) {
         $arrSite['my.com:8080'] = 'Nginx 服务器';
-    else
-        $arrSite['my.com']      = 'Apache 服务器';
+    } else {
+        $arrSite['my.com'] = 'Apache 服务器';
+    }
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -53,7 +44,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="">
     <meta name="author" content="">
@@ -61,10 +51,6 @@
     <!-- Bootstrap core CSS -->
     <link href="/resource/ace/assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
-
-    <script src="/resource/ace/assets/js/jquery.min.js"></script>
-    <script src="/resource/ace/assets/js/bootstrap.min.js"></script>
-
     <style type="text/css">
         div.main {margin-top:70px;}
         p.bg-success {padding:10px;}
@@ -170,6 +156,8 @@
         </div>
         <div id="me"></div>
     </div> <!-- /container -->
+    <script src="/resource/ace/assets/js/jquery.min.js"></script>
+    <script src="/resource/ace/assets/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(function(){ 
             $('table').css('width', '100%').find('td, th').css('padding', '5px');
