@@ -2,7 +2,7 @@
 	var tags = arguments;
 	for (var i = 0; i < this.elements.length; i ++) {
 		addEvent(this.elements[i], 'mousedown', function (e) {
-			if (trim(this.innerHTML).length == 0) e.preventDefault();
+			if (trim(this.innerHTML).length === 0) e.preventDefault();
 			var _this = this;
 			var diffX = e.clientX - _this.offsetLeft;
 			var diffY = e.clientY - _this.offsetTop;
@@ -11,7 +11,7 @@
 			var flag = false;
 			
 			for (var i = 0; i < tags.length; i ++) {
-				if (e.target == tags[i]) {
+				if (e.target === tags[i]) {
 					flag = true;					//只要有一个是true，就立刻返回
 					break;
 				}
@@ -48,7 +48,7 @@
 				_this.style.left = left + 'px';
 				_this.style.top = top + 'px';
 				
-				if (typeof _this.setCapture != 'undefined') {
+				if (typeof _this.setCapture !== 'undefined') {
 					_this.setCapture();
 				} 
 			}
@@ -56,7 +56,7 @@
 			function up() {
 				removeEvent(document, 'mousemove', move);
 				removeEvent(document, 'mouseup', up);
-				if (typeof _this.releaseCapture != 'undefined') {
+				if (typeof _this.releaseCapture !== 'undefined') {
 					_this.releaseCapture();
 				}
 			}

@@ -257,21 +257,21 @@ function insertRule(sheet, selectorText, cssText, position) {
 
 //跨浏览器移出link规则
 function deleteRule(sheet, index) {
-	if (typeof sheet.deleteRule != 'undefined') {				//W3C
+	if (typeof sheet.deleteRule !== 'undefined') {				//W3C
 		sheet.deleteRule(index);
-	} else if (typeof sheet.removeRule != 'undefined') {//IE
+	} else if (typeof sheet.removeRule !== 'undefined') {//IE
 		sheet.removeRule(index);
 	}
 }
 
 //跨浏览器获取innerText
 function getInnerText(element) {
-	return (typeof element.textContent == 'string') ? element.textContent : element.innerText;
+	return (typeof element.textContent === 'string') ? element.textContent : element.innerText;
 }
 
 //跨浏览器设置innerText
 function setInnerText(elememt, text) {
-	if (typeof element.textContent == 'string') {
+	if (typeof element.textContent === 'string') {
 		element.textContent = text;
 	} else {
 		element.innerText = text;
@@ -282,7 +282,7 @@ function setInnerText(elememt, text) {
 function offsetTop(element){
 	var top = element.offsetTop;
 	var parent = element.offsetParent;
-	while( parent != null ){
+	while( parent !== null ){
 		top += parent.offsetTop;
 		parent = parent.offsetParent;
 	}
@@ -316,14 +316,14 @@ function predef(e){
 /** prevIndex()获取某一个节点的上一个节点的索引 */
 function prevIndex(current,parent){
 	var length = parent.children.length;
-	if ( current == 0 ) return length -1;
+	if ( current === 0 ) return length -1;
 	return parseInt(current) -1;
 }
 
 /** nextIndex()获取某一个节点的下一个节点的索引 */
 function nextIndex(current,parent){
 	var length = parent.children.length;
-	if ( current == length-1 ) return 0;
+	if ( current === length-1 ) return 0;
 	return parseInt(current) + 1;
 }
 /** fixedScroll()滚动条固定 */

@@ -135,7 +135,7 @@ window.Messenger = (function() {
          * @return {[type]}     [description]
          */
         var generalCallback = function(msg) {
-            if (typeof msg == 'object' && msg.data) {
+            if (typeof msg === 'object' && msg.data) {
                 msg = msg.data;
             }
 

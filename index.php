@@ -1,21 +1,42 @@
 <?php
     // 设置头信息
     header('Content-Type:text/html; charset=UTF-8');
-    
+
+    // window hosts 文件地址
+    define('WINDOWS_VHOST_PATH', 'C:/Windows/System32/drivers/etc/hosts');
+
+    // 资源目录
+    define('RESOURCE_DIR', '/resource/');
+
+    // 读取信息
+    if (file_exists(WINDOWS_VHOST_PATH)) {
+        $hosts = file(WINDOWS_VHOST_PATH);
+    } else {
+        $hosts = [];
+    }
+
+    // 定义站点信息 域名 => 说明
+    $arrSite = [];
+    if ($hosts) {
+        foreach ($hosts as $value) {
+            $tmp = explode(' ', $value);
+            if (count($tmp) >= 2) {
+                $arrSite[trim($tmp[1])] = $tmp[1].' - ' . $tmp[0];
+            }
+        }
+    }
+
     // 判断是否查看PHP版本信息
     $isPHP = isset($_GET['php']) && $_GET['php'] == 'info' ? true : false;
 
     // 目录操作
-    $dir      = dirname(__FILE__);  // 获取当前文件路径
+    $dir = dirname(__FILE__);  // 获取当前文件路径
     $resource = opendir($dir);      // 打开当前目录
-    $strDir   = $strFile = '';      // 需要显示信息
+    $strDir = $strFile = '';      // 需要显示信息
 
     // 定义需要隐藏的文件
     $hidefile = [
-        '.' => 1, '..' => 1, 'index.php' => 1, 
-        'phpmyadmin' => 1, 'xiangye' => 1, '.idea' => 1, 
-        'yueyangwx' => 1, 'mygo' => 1, 'sina' => 1, 
-        'project' => 1, 'xhprof' => 1,
+        '.' => 1, '..' => 1, 'index.php' => 1
     ];
 
     // 循环处理
@@ -28,14 +49,11 @@
         strpos($filename, '.') ? $strFile .= $html :  $strDir .= $html;
     }
 
-    // 定义站点信息 域名 => 说明
-    $arrSite = [];
-
     // 服务器切换
     if (strchr($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false) {
-        $arrSite['my.com:8080'] = 'Nginx 服务器';
+        $arrSite['192.168.99.100'] = 'Nginx 服务器';
     } else {
-        $arrSite['my.com'] = 'Apache 服务器';
+        $arrSite['localhost'] = 'Apache 服务器';
     }
 ?>
 <!DOCTYPE html>
@@ -49,7 +67,7 @@
     <meta name="author" content="">
     <title> MyServer 我的服务器 </title>
     <!-- Bootstrap core CSS -->
-    <link href="/resource/ace/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?=RESOURCE_DIR?>css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <style type="text/css">
         div.main {margin-top:70px;}
@@ -78,8 +96,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 资源 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-header bg-success"> 后台模板 </li>
-                            <li><a href="/resource/ace">ACE</a></li>
-                            <li><a href="/resource/Simpli">Simpli</a></li>
+                            <li><a href="<?=RESOURCE_DIR?>ace">ACE</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -154,10 +171,9 @@
                 <?php endif; ?>
             </div>
         </div>
-        <div id="me"></div>
     </div> <!-- /container -->
-    <script src="/resource/ace/assets/js/jquery.min.js"></script>
-    <script src="/resource/ace/assets/js/bootstrap.min.js"></script>
+    <script src="<?=RESOURCE_DIR?>js/jquery.min.js"></script>
+    <script src="<?=RESOURCE_DIR?>/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(function(){ 
             $('table').css('width', '100%').find('td, th').css('padding', '5px');
