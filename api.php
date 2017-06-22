@@ -45,7 +45,7 @@ if (isset($_GET) && !empty($_GET['type']) && isset($_POST) && !empty($_POST['api
 ### 请求参数
 
 | 参数名                | 参数类型  | 是否必填  | 说明                      |
-| -------------         |:--------:| -------: | -----------------------   |
+| :-------------        |:--------: | :-------: | :----------------------   |
 {params}
 
 
@@ -63,34 +63,11 @@ if (isset($_GET) && !empty($_GET['type']) && isset($_POST) && !empty($_POST['api
 ### 返回参数
 
 | 参数名        | 参数类型  | 说明                        |
-| --------------|:---------:| ---------------:           |
-| code          | int       |  错误码(0 表示没有错误)     |
+| :-------------|:---------:| :---------------            |
+| code          | int       | 错误码(0 表示没有错误)      |
 | msg           | string    | 错误提示(success 成功)      |
 | sign          | string    | 签名                        |
 | data          | mixed     | 返回其他数据                |
-
-### 其他说明
-
-```php
-
-// 数据加密方式
-所以请求参数组成(key => value)数组 然后按照key 排序这个数组， 连接数组的值 + 秘钥 进行md5加密
-// php 示例代码
-\$request = [
-    'member_id' => 1,
-    'customer_phone' => '13020137932',
-    'customer_name' => '车城',
-    'che_order_id' => 'CHE20140612111256',
-    'intention_id' => 1,
-    'intention_des' => '奥迪'
-];
-
-// 按照键排序
-ksort(\$request);
-// 连接生成秘钥
-\$request['sign'] = md5(implode(',', \$request) . '你的秘钥');
-
-```
 
 html;
     $arrReturn = [
