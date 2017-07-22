@@ -11,7 +11,12 @@
  * -t 配置服务器类型(nginx apache) 例如 -t apache 默认： apache
  * -r 配置需要移除的域名和配置 例如 -r test.com
  */
-$strPhp = array_shift($argv);
+if (isset($argv) && $argv) {
+    $strPhp = array_shift($argv);
+} else {
+    $argv = null;
+}
+
 
 // window hosts 文件位置
 define('WINDOW_HOST', 'C:/Windows/System32/drivers/etc/hosts');
