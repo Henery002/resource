@@ -151,6 +151,13 @@ if ($isDomain && isset($argument['-v']) && !empty($argument['-v'])) {
     ErrorLog "logs/{{_DOMAIN_}}-error.log"
     CustomLog "logs/{{_DOMAIN_}}-access.log" common
     <Directory "{{_PATH_}}">
+        # 开启 mod_rewrite 用于美化 URL 功能的支持（译注：对应 pretty URL 选项）
+        RewriteEngine on
+        # 如果请求的是真实存在的文件或目录，直接访问
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        # 如果请求的不是真实文件或目录，分发请求至 index.php
+        RewriteRule . index.php
         Options Indexes FollowSymLinks
         AllowOverride None
         Require all granted
