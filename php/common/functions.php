@@ -9,6 +9,36 @@
  */
 
 /**
+ * 获取get 请求参数
+ * @param string $key 参数名称
+ * @param mixed|null $default 默认值
+ * @return null|mixed 
+ */
+function get($key, $default = null) 
+{
+    if (isset($_GET[$key])) {
+        $default = $_GET[$key];
+    }
+
+    return $default;
+}
+
+/**
+ * 获取 post 请求参数
+ * @param string $key 参数名称
+ * @param mixed|null $default 默认值
+ * @return null|mixed 
+ */
+function post($key, $default = null) 
+{
+    if (isset($_POST[$key])) {
+        $default = $_POST[$key];
+    }
+
+    return $default;
+}
+
+/**
  * strLength() PHP获取字符串中英文混合长度 
  * @param   string 	$str      字符串
  * @param   string 	$charset  编码( 默认为UTF-8 )
