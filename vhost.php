@@ -12,11 +12,10 @@
  * -r 配置需要移除的域名和配置 例如 -r test.com
  */
 if (isset($argv) && $argv) {
-    $strPhp = array_shift($argv);
+	$strPhp = array_shift($argv);
 } else {
-    $argv = null;
+	$argv = null;
 }
-
 
 // window hosts 文件位置
 define('WINDOW_HOST', 'C:/Windows/System32/drivers/etc/hosts');
@@ -29,24 +28,27 @@ define('NGINX_VHOST_PATH', 'D:/html/docker/vhost/');
 
 // 判断是否输入参数
 if (empty($argv)) {
-	echo 'Please enter the domain name and project directory'."\n";
+	echo 'Please enter the domain name and project directory' . "\n";
 	echo 'Params desc:
     -h Configure IP For example -h 192.168.99.100 default 127.0.0.1
     -d Configure domain name such as -d test.com
     -v Configure virtual directories such as -v d:/html
     -t configuration server type (nginx apache) For example -t apache default: apache
-    -r Configure the domain name and configuration to be removed, for example, -r test.com'."\n";
-    $hosts = file(WINDOW_HOST);
-    if ($hosts) {
-        echo 'The current configuration is: '."\n";
-        foreach ($hosts as $value) {
-            $value = trim($value);
-            if ($value) echo $value . "\n";
-        }
-    }
+    -r Configure the domain name and configuration to be removed, for example, -r test.com' . "\n";
+	$hosts = file(WINDOW_HOST);
+	if ($hosts) {
+		echo 'The current configuration is: ' . "\n";
+		foreach ($hosts as $value) {
+			$value = trim($value);
+			if ($value) {
+				echo $value . "\n";
+			}
+
+		}
+	}
 
 	exit;
-} 
+}
 
 /**
  * 给数组设置默认值
@@ -73,7 +75,7 @@ if ($params) {
 $isDomain = isset($argument['-d']) && !empty($argument['-d']);
 $isRemove = isset($argument['-r']) && !empty($argument['-r']);
 if (!$isDomain && !$isRemove) {
-    exit('You need to configure a domain name such as -d localhost');
+	exit('You need to configure a domain name such as -d localhost');
 }
 
 // 设置域名
@@ -86,69 +88,69 @@ $all = file(WINDOW_HOST);
 $exists = false;
 $arrTmp = [];
 foreach ($all as $value) {
-    $value = trim($value, PHP_EOL);
-    if (!empty($value)) {
-        // 处理修改
-        if ($isDomain && strpos($value, $argument['-d'])) {
-            $value = $argument['-h'].' '.$argument['-d'];
-            $exists = true;
-        }
+	$value = trim($value, PHP_EOL);
+	if (!empty($value)) {
+		// 处理修改
+		if ($isDomain && strpos($value, $argument['-d'])) {
+			$value = $argument['-h'] . ' ' . $argument['-d'];
+			$exists = true;
+		}
 
-        // 处理删除
-        if ($isRemove && strpos($value, $argument['-r'])) {
-            continue;
-        }
+		// 处理删除
+		if ($isRemove && strpos($value, $argument['-r'])) {
+			continue;
+		}
 
-        $arrTmp[] = $value;
-    }
+		$arrTmp[] = $value;
+	}
 }
 
 // 新增 host 解析
 if (false === $exists && $isDomain) {
-    $arrTmp[] = $argument['-h'].' '.$argument['-d'];
+	$arrTmp[] = $argument['-h'] . ' ' . $argument['-d'];
 }
 
 // 开始处理 host 设置
 $resource = fopen(WINDOW_HOST, 'w+');
 if ($resource) {
-    // 写入数据
-    foreach ($arrTmp as $value) {
-        fwrite($resource, $value.PHP_EOL);
-    }
+	// 写入数据
+	foreach ($arrTmp as $value) {
+		fwrite($resource, $value . PHP_EOL);
+	}
 
-    fclose($resource);
+	fclose($resource);
 
-    echo 'The current host file configuration:', "\n";
-    print_r($arrTmp);
+	echo 'The current host file configuration:', "\n";
+	print_r($arrTmp);
 } else {
 	echo 'Open system host file failed', "\n";
 }
 
 // 判断删除虚拟目录配置
 if ($isRemove) {
-    switch ($argument['-t']) {
-        case 'apache':
-            $strPath = APACHE_VHOST_PATH;
-            break;
-        case 'nginx':
-            $strPath = NGINX_VHOST_PATH;
-            break;
-    }
+	switch ($argument['-t']) {
+	case 'apache':
+		$strPath = APACHE_VHOST_PATH;
+		break;
+	case 'nginx':
+		$strPath = NGINX_VHOST_PATH;
+		break;
+	}
 
-    $strPath .= $argument['-r'].'.conf';
-    if (file_exists($strPath)) {
-        unlink($strPath);
-    }
+	$strPath .= $argument['-r'] . '.conf';
+	if (file_exists($strPath)) {
+		unlink($strPath);
+	}
 }
 
 // 处理虚拟目录
 if ($isDomain && isset($argument['-v']) && !empty($argument['-v'])) {
-    $strFile = '';
-    $strPath = '';
-    switch ($argument['-t']) {
-        case 'apache':
-            if (file_exists($argument['-v'])) {
-                $strFile = <<<FILE
+	$strFile = '';
+	$strPath = '';
+	switch ($argument['-t']) {
+	case 'apache':
+		if (file_exists($argument['-v'])) {
+			$strFile = <<<FILE
 <VirtualHost *:80>
     ServerAdmin 821901008@qq.com
     DocumentRoot "{{_PATH_}}"
@@ -169,15 +171,15 @@ if ($isDomain && isset($argument['-v']) && !empty($argument['-v'])) {
     </Directory>
 </VirtualHost>
 FILE;
-            } else {
-                echo 'error: The configuration directory does not exist', "\n";
-            }
+		} else {
+			echo 'error: The configuration directory does not exist', "\n";
+		}
 
-            $strPath = APACHE_VHOST_PATH;
+		$strPath = APACHE_VHOST_PATH;
 
-            break;
-        case 'nginx':
-            $strFile = <<<FILE
+		break;
+	case 'nginx':
+		$strFile = <<<FILE
 server {
     listen 80;
     server_name {{_DOMAIN_}};
@@ -201,26 +203,26 @@ server {
     }
 }
 FILE;
-            $strPath = NGINX_VHOST_PATH;
-            break;
-    }
+		$strPath = NGINX_VHOST_PATH;
+		break;
+	}
 
-    // 判断文件和路径信息
-    if ($strFile && $strPath) {
-        file_put_contents($strPath.$argument['-d'].'.conf', str_replace(
-            [
-                '{{_DOMAIN_}}',
-                '{{_PATH_}}'
-            ],
-            [
-                $argument['-d'],
-                $argument['-v']
-            ],
-            $strFile));
-    }
+	// 判断文件和路径信息
+	if ($strFile && $strPath) {
+		file_put_contents($strPath . $argument['-d'] . '.conf', str_replace(
+			[
+				'{{_DOMAIN_}}',
+				'{{_PATH_}}',
+			],
+			[
+				$argument['-d'],
+				$argument['-v'],
+			],
+			$strFile));
+	}
 
-    if ($argument['-t'] === 'apache') {
-        exec('NET STOP ' . APACHE_NAME);
-        exec('NET START' . APACHE_NAME);
-    }
+	if ($argument['-t'] === 'apache') {
+		exec('NET STOP ' . APACHE_NAME);
+		exec('NET START' . APACHE_NAME);
+	}
 }

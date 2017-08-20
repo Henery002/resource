@@ -1,20 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: love
- * Date: 2016/11/5
- * Time: 15:40
- */
 
-// 第一种加载方式
-//function __autoload($className)
-//{
-//    if (file_exists($className.'.php')) {
-//        include($className.'.php');
-//    } else {
-//        exit('class no exists!');
-//    }
-//}
 define('DIR_PATH', __DIR__.'/../');
 
 class Autoload
