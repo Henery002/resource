@@ -6,7 +6,7 @@
     define('WINDOWS_VHOST_PATH', 'C:/Windows/System32/drivers/etc/hosts');
 
     // 资源目录
-    define('RESOURCE_DIR', '/resource/');
+    define('RESOURCE_DIR', '');
 
     // 读取信息
     if (file_exists(WINDOWS_VHOST_PATH)) {
@@ -36,13 +36,17 @@
 
     // 定义需要隐藏的文件
     $hidefile = [
-        '.' => 1, '..' => 1, 'index.php' => 1
+        '.', '..', 'index.php',
+        '.git', '.gitignore', '.idea',
+        'css', 'js', 'vue',
+        'static', 'ace.zip', 'vhost.php',
+        'vue-api.php'
     ];
 
     // 循环处理
     while (!! $filename = readdir($resource)) {
         // 去掉隐藏文件
-        if (isset($hidefile[$filename])) continue;
+        if (in_array($filename, $hidefile)) continue;
 
         // 文件和目录区分
         $html = '<div class="col-md-3"><p class="text-primary"><a href="'.$filename.'">'.$filename.'</a></p></div>';
@@ -172,7 +176,7 @@
             </div>
         </div>
     </div> <!-- /container -->
-    <script src="<?=RESOURCE_DIR?>js/jquery.min.js"></script>
+    <script src="<?=RESOURCE_DIR?>/js/jquery.min.js"></script>
     <script src="<?=RESOURCE_DIR?>/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(function(){ 
